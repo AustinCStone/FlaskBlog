@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 app.secret_key ="my precious"
-app.database = "samle.db"
+app.database = "sample.db"
 
 def login_required(f):
     @wraps(f)
