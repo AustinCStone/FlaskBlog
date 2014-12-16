@@ -2,6 +2,7 @@ from flask import Flask, render_template,redirect,url_for, request, session, fla
 from functools import wraps 
 from flask.ext.sqlalchemy import SQLAlchemy
 import sqlite3
+from pprint import pprint
 
 app = Flask(__name__)
 
@@ -27,8 +28,18 @@ def login_required(f):
 @app.route("/")
 @login_required
 def home():
-    posts = db.session.query(BlogPost).all()
-    return render_template("index.html",posts=posts)
+    posts = []
+    try:
+        posts = db.session.query(Child).all()
+        for child in posts:
+            child.parent_id = 1
+            flash('lol')
+            flash(dir(child))
+            flash(child.parent)
+            flash(child.parent_id)
+        return render_template("index.html",posts=[dict(title='ha', description='wat')])
+    except:
+        return render_template("index.html", posts=[dict(title='did not render', description='didnt render')])
 
 @app.route("/welcome")
 def welcome():
